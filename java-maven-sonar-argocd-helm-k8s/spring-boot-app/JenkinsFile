@@ -60,17 +60,14 @@ pipeline {
 
         }
 
-
-
-        stage("Build & Push Docker Image") {
+        tage("Build & Push Docker Image") {
             steps {
                 script {
-          
-                   docker.withRegistry('',DOCKER_PASS) {
-                     sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker.build -t ${IMAGE_NAME}'
-                        
+                    docker.withRegistry('',DOCKER_PASS) {
+                        sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app/'
+                        docker_image = docker.build "${IMAGE_NAME}"
                     }
-                 
+
                     docker.withRegistry('',DOCKER_PASS) {
                         docker_image.push("${IMAGE_TAG}")
                         docker_image.push('latest')
@@ -78,6 +75,7 @@ pipeline {
                 }
             }
        }
+
      // to scan docker image 
         stage("Trivy Scan") {
            steps {
