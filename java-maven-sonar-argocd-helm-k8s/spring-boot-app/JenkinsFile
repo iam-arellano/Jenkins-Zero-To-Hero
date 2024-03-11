@@ -60,6 +60,13 @@ pipeline {
 
         }
 
+
+           stage("checking directory"){
+                steps {
+                    sh'pwd'
+                }
+        }
+
         stage("Build & Push Docker Image") {
             steps {
                 script {
