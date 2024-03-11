@@ -61,16 +61,13 @@ pipeline {
         }
 
 
-           stage("checking directory"){
-                steps {
-                    sh'pwd'
-                }
-        }
 
         stage("Build & Push Docker Image") {
             steps {
                 script {
-                    
+                 // locate Dockerfile    
+                sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app/'
+
                    docker.withRegistry('',DOCKER_PASS) {
                         docker_image = docker.build "${IMAGE_NAME}"
                     }
